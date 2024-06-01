@@ -13,6 +13,8 @@ def df(x1, x2):
 
 if __name__ == '__main__':
     step = 0.001 # the optimization oscillates if the step is not small enough
+    # this can be attributed to the fact that the function under optimization
+    # is not smooth.
     for _ in range(20):
         guess = np.array([np.random.uniform(5), np.random.uniform(5)])
         minimum, minimizer, loops = gradient_descent(f, df, guess, step, limit=10000)
