@@ -1,20 +1,7 @@
 import numpy as np
-from numpy.random
+import matplotlib.pyplot as plt
+
 if __name__ == '__main__':
-	# m1 - 1/2(m2 + m5) = 1
-	# m2 - 1/2(m1 + m3) = 1
-	# m3 - 1/3(m2 + m4 + m6) = 1
-	# m4 - 1/2(m3 + m7) = 1
-	# m5 - 1/2(m1 + m8) = 1
-	# m6 - 1/2(m3 + m7) = 1
-	# m7 - 1/3(m4 + m6 + m10) = 1
-	# m8 - 1/3(m5 + m9 + m11) = 1
-	# m9 - 1/2(m8 + m12) = 1
-	# m10 = 0
-	# m11 - 1/2(m8 + m12) = 1
-	# m12 - 1/3(m9 + m11 + m13) = 1
-	# m13 - 1/2(m12 + m14) = 1
-	# m14 - 1/2(m13 + m10) = 1
 
     right_side = [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1]
 
@@ -35,9 +22,34 @@ if __name__ == '__main__':
         [0, 0, 0, 0, 0, 0, 0, 0, 0, -1/2, 0, 0, -1/2, 1]
     ]
 
+
     free_vars = np.linalg.solve(system, right_side)
-    print(free_vars)
-    print(f"sanity check: free_vars[9] = m10 = {free_vars[9]} must be 0")
+    print(f"mean absorption time from each state {free_vars}")
+
+    markov = np.array(system)
+    for i in range(len(markov)):
+        for j in range(len(markov)):
+            if system[i][j] == 1:
+                markov[i][j] = 0
+            if system[i][j] < 0:
+                markov[i][j] = -system[i][j]
+
+    # simulate the system and make a histogram of the absorption times
+    states = len(markov)
+    simulations = 1000
+    absorption_times = []
+    starting = 1
+    for _ in range(simulations):
+        state = starting
+        steps = 0
+        while state != 10:
+            state = np.random.choice(range(0, states), p=markov[state-1])
+            steps += 1
+        absorption_times.append(steps)
     
-    
-    
+    plt.hist(absorption_times, bins=range(0, max(absorption_times) + 1))
+    plt.title("Histogram of absorption times")
+    plt.xlabel("Absorption time")
+    plt.ylabel("Frequency")
+    plt.grid()
+    plt.show()
