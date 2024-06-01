@@ -7,8 +7,9 @@ y = el_lo_des';
 % e.g., handling missing values, normalization
 
 % Determine the order of the AR model using cross-validation
-cvError = zeros(1, 5);
-for p = 1:20 % Test AR orders from 1 to 10
+maxorder = 20;
+cvError = zeros(1, maxorder);
+for p = 1:maxorder % Test AR orders from 1 to maxorder
     % Split data into training and validation sets
     n = length(y);
     trainData = y(1:round(0.7*n)); % 70% for training

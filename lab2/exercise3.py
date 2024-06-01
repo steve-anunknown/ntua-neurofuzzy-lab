@@ -79,6 +79,8 @@ for i in range(len(t)):
 
 # Plotting the results
 plt.figure(figsize=(12, 8))
+# title for the whole figure
+plt.suptitle('Pendulum System Identification with Gradient Descent (Constant Input U = 1.0)', fontsize=16)
 plt.subplot(2, 2, 1)
 plt.plot(t, x_storage[:, 0], label='True x1')
 plt.plot(t, x_hat_storage[:, 0], label='Estimated x1')
@@ -104,7 +106,8 @@ plt.title('Parameter a2')
 plt.legend()
 
 plt.tight_layout()
-plt.show()
+plt.savefig('estimation-const-unit-input.png')
+plt.close()
 
 # ==================================================== #
 from scipy.signal import square
@@ -156,6 +159,7 @@ for i in range(len(t)):
 
 # Plotting the results with square wave input
 plt.figure(figsize=(12, 8))
+plt.suptitle('Pendulum System Identification with Gradient Descent (U = unit square wave)', fontsize=16)
 plt.subplot(2, 2, 1)
 plt.plot(t, x_storage[:, 0], label='True x1')
 plt.plot(t, x_hat_storage[:, 0], label='Estimated x1')
@@ -181,7 +185,8 @@ plt.title('Parameter a2 with Square Wave Input')
 plt.legend()
 
 plt.tight_layout()
-plt.show()
+plt.savefig('estimation-square-wave-input.png')
+plt.close()
 
 # ==================================================== #
 # Function to generate a sinusoidal wave
@@ -231,6 +236,7 @@ for i in range(len(t)):
 
 # Plotting the results with sinusoidal wave input
 plt.figure(figsize=(12, 8))
+plt.suptitle('Pendulum System Identification with Gradient Descent (U = sin(pi * t))', fontsize=16)
 plt.subplot(2, 2, 1)
 plt.plot(t, x_storage[:, 0], label='True x1')
 plt.plot(t, x_hat_storage[:, 0], label='Estimated x1')
@@ -256,7 +262,8 @@ plt.title('Parameter a2 with Sinusoidal Input')
 plt.legend()
 
 plt.tight_layout()
-plt.show()
+plt.savefig('estimation-sin-input.png')
+plt.close()
 
 
 
