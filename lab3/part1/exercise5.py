@@ -42,7 +42,7 @@ if __name__ == '__main__':
         loops_ord.append(loops)
         with np.printoptions(precision=3, suppress=True):
            print('%.3f' % minimum, '|', minimizer, '|', loops, '\t|', guess, '|', "ordinary")
-    avg_loops_ord = sum(loops_ord)/len(loops_ord)
-    avg_loops_stoch = sum(loops_stoch)/len(loops_stoch)
-    print(f"average number of iterations (stochastic) = {avg_loops_stoch}")
-    print(f"average number of iterations (ordinary) = {avg_loops_ord}")
+    # calculate the harmonic mean of the number of iterations
+    # for both methods
+    print("harmonic mean of iterations for stochastic gradient descent:", 10/sum(1/i for i in loops_stoch))
+    print("harmonic mean of iterations for ordinary gradient descent:", 10/sum(1/i for i in loops_ord))

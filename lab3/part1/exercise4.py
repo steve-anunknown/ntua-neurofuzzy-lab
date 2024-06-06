@@ -12,7 +12,7 @@ def df(x1, x2):
     return Gradient(f)(x1, x2)
 
 if __name__ == '__main__':
-    step = 0.001 # the optimization oscillates if the step is not small enough
+    step = 0.01 # the optimization oscillates if the step is not small enough
     # this can be attributed to the fact that the function under optimization
     # is not smooth.
     for _ in range(20):

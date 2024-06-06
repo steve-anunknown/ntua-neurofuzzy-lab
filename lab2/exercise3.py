@@ -41,7 +41,7 @@ true_a1, true_a2, true_b = 1.0, 0.5, 0.3  # true parameters of the system
 a1, a2, b = 0.5, 0.25, 0.15  # initial guesses
 
 # Learning rate for the gradient descent
-learning_rate = 0.01
+learning_rate = 0.1
 
 # Storage for data
 x_storage = np.zeros((len(t), 2))
