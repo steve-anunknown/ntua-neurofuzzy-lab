@@ -1,0 +1,68 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{placeins} % for \FloatBarrier
+\usepackage[english,greek, main=greek]{babel}
+\usepackage[utf8]{inputenc}
+\useshorthands{;}
+\defineshorthand{;}{?}
+
+\usepackage[explicit]{titlesec} % number after section name
+%% number after subsection name
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {}
+  {0em}
+  {#1\ \thesubsection}
+% avoid numbering the table of contents
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {}
+  {0em}
+  {\ifnum\value{section}=0\relax #1\else #1\ \thesection\fi}
+\newcommand{\eng}[1]{\foreignlanguage{english}{#1}} % shortcut for inserting english into greek text
+
+
+\title{
+    \includegraphics[width=\textwidth]{~/Pictures/emp.png} \\
+    \vskip 5cm
+    Νευροασαφής Έλεγχος και Εφαρμογές\\
+    \large Άσκηση 1η
+    \vskip 5cm
+}
+
+\author{Αναστάσιος Στέφανος Αναγνώστου\\
+        03119051}
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Θέμα}
+
+\subsection{Ερώτημα}
+
+Για τον έλεγχο του συστήματος σχεδιάστηκε ελεγκτής τύπου \eng{Mamdani}. Η
+είσοδος του είναι το σφάλμα ταχύτητας και η έξοδος είναι η δύναμη της μηχανής.
+Το σφάλμα ταχύτητας καθορίζεται από 3 συναρτήσεις μέλους, όπως φαίνεται παρακάτω:
+
+\selectlanguage{english}
+\lstinputlisting[firstline=12, lastline=23]{../ex1.m} 
+\selectlanguage{greek}
+
+Χρησιμοποιούνται τραπεζοειδείς συναρτήσεις συμμετοχής
+
+\subsection{Ερώτημα}
+
+\subsection{Ερώτημα}
+
+\section{Θέμα}
+
+\subsection{Ερώτημα}
+
+\subsection{Ερώτημα}
+
+\end{document}

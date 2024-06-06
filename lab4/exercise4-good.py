@@ -1,21 +1,18 @@
 import numpy as np
-from numba import jit
+
+np.set_printoptions(precision=3)
 
 
-# the policy is the choice that the controller makes for each state
-@jit(nopython=True)
 def compute_optimal_policy(g, num_states, discount_factor):
     # Initialize the value function array
     V = np.zeros(num_states)
+    V_new = np.zeros(num_states)
     # Initialize the policy array
     policy = np.zeros(num_states, dtype=int)
 
     # Tolerance for convergence
-    tolerance = 1e-5
-    delta = 1
-    # Iterate until convergence
-    while delta >= tolerance:
-        delta = 0
+    iters = 0
+    while iters < 1000:
         for i in range(num_states):
             # Compute the value for both actions (+1 and -1)
             v_plus = g[i] + discount_factor * (0.5 * V[min(i + 1, num_states - 1)] + 0.5 * V[i])
@@ -27,13 +24,15 @@ def compute_optimal_policy(g, num_states, discount_factor):
             # Update the policy
             policy[i] = 1 if v_plus < v_minus else -1
 
-            # Calculate the maximum change in value function
-            delta = max(delta, abs(min_value - V[i]))
-
             # Update the value function
-            V[i] = min_value
+            V_new[i] = min_value
+
+            iters += 1
+
+        V = np.copy(V_new)
 
     return V, policy
+
 
 if __name__ == '__main__':
     # The given g function
@@ -44,11 +43,11 @@ if __name__ == '__main__':
     # different values of a
     base = 0.2
     discount_factors = [base * (i + 1) for i in range(10)]
-    optimal_policies = {}
 
     for a in discount_factors:
         V, policy = compute_optimal_policy(g, num_states, a)
-        optimal_policies[a] = policy
-
-    print(optimal_policies)
+        print(f'Discount Factor: {a:.3f}')
+        print('Optimal Policy:', policy)
+        print(f'Expected Cost: {V}')
+        print()
 

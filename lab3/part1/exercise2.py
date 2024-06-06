@@ -12,8 +12,8 @@ def ddf(x1, x2, A=10):
 
 def hessian(x1, x2, A=10):
     return np.array([
-        2*A, 0,
-        0, 2/A
+        [2*A, 0],
+        [0, 2/A]
         ])
 
 if __name__ == '__main__':

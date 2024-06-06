@@ -7,23 +7,17 @@ if __name__ == '__main__':
     cond_numbers_arithmetic = []
     cond_numbers_geometric = []
     cond_numbers_median = []
-    
     reps = 400
-    
     for dim in dims:
         cond_list = []
         for i in range(reps):
             # A random matrix
             A = np.random.randn(dim, dim)
-    
             # A * A^T
             Q = A @ A.T
-    
             # condition number of Q
             cond = np.linalg.cond(Q)
             cond_list.append(cond)
-    
-        # use harmonic mean
         mean_cond = reps / np.sum(1 / np.array(cond_list))
         cond_numbers_harmonic.append(mean_cond)
         # use arithmetic mean
@@ -35,8 +29,7 @@ if __name__ == '__main__':
         # use median
         mean_cond = np.median(cond_list)
         cond_numbers_median.append(mean_cond)
-    
-    
+
     plt.figure()
     plt.plot(dims, cond_numbers_arithmetic, 'o-')
     plt.plot(dims, cond_numbers_geometric, 'o-')

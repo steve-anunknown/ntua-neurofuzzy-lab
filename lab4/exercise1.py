@@ -1,13 +1,19 @@
 import numpy as np
+np.set_printoptions(precision=4, suppress=True)
+
 
 def markov_chain(a, b, c):
-    return np.array([
+    chain = np.array([
         [0, 1 - a - b, a, b, 0],
         [0, 0, 1, 0, 0],
         [0, 0, 0, 1 - c, c],
         [1, 0, 0, 0, 0],
         [0, 0, 0.5, 0, 0.5]
     ])
+
+    for transition_probabilities in chain:
+        assert sum(transition_probabilities) == 1
+    return chain
 
 
 if __name__ == '__main__':
@@ -16,11 +22,8 @@ if __name__ == '__main__':
     c = 1/3
     a = 1/4
     b = 1 - a
-    
-    chain = markov_chain(a, b, c)
-    for tp in chain:
-        assert sum(tp) == 1
 
+    chain = markov_chain(a, b, c)
     num_states = len(chain)
     names = [f"q{i+1}" for i in range(num_states)]
 
@@ -31,8 +34,15 @@ if __name__ == '__main__':
     print('=' * len(message))
     print(message)
     print('=' * len(message))
-    print("Not yet implemented")
+    for a, b, c in [(0, 0.1, 0), (0.1, 0.1, 0.1), (0.2, 0.2, 0.2)]:
+        print(f"Values a = {a}, b = {b}, c = {c}")
+        chain = markov_chain(a, b, c)
 
+        eigvals, eigvecs = np.linalg.eig(chain.T)
+        left_eigvec = eigvecs[:, np.isclose(eigvals, 1)]
+        left_eigvec = left_eigvec / left_eigvec.sum()
+        for state, prob in zip(names, left_eigvec):
+            print(f"\tState {state}: {np.abs(prob[0]):.3f}")
 
     # 2: if a = c = 0 and b = 0.1, what
     # is the probability that the state at t = 1000,
@@ -45,20 +55,16 @@ if __name__ == '__main__':
     for a, b, c in [(0, 0.1, 0), (0.1, 0.1, 0.1)]:
         print(f"Values a = {a}, b = {b}, c = {c}")
         chain = markov_chain(a, b, c)
-        for transition_probabilities in chain:
-            assert sum(transition_probabilities) == 1
 
         time_steps = [1000, 1001, 1002, 1003]
         long_chain = [np.linalg.matrix_power(chain, t) for t in time_steps]
         for starting in range(num_states):
+            print(f"\tStarting at state {names[starting]}")
             initial_conditions = [0] * num_states
             initial_conditions[starting] = 1
             for time in range(len(time_steps)):
                 probabilities = np.dot(initial_conditions, long_chain[time])
-                print(f"Starting at {names[starting]} at time {time_steps[time]}")
-                for state, prob in zip(names, probabilities):
-                    # print with 4 decimal places
-                    print(f"\tProbability of state {state}: {prob:.4f}")
+                print(f"\t\ttime {time_steps[time]} -> probs: {probabilities}")
 
     # 3: for a = b = c = 0.1, simulate a sample path of the Markov chain.
     # How much time X is spent on each state? Compare with the left eigenvector
@@ -73,7 +79,7 @@ if __name__ == '__main__':
     chain = markov_chain(a, b, c)
     total_time = 10000
     times = np.zeros(num_states)
-    state = 0 # np.random.randint(num_states)
+    state = 0  # np.random.randint(num_states)
     for _ in range(total_time):
         state = np.random.choice(num_states, p=chain[state])
         times[state] += 1
@@ -87,6 +93,3 @@ if __name__ == '__main__':
     left_eigvec = left_eigvec / left_eigvec.sum()
     for state, prob in zip(names, left_eigvec):
         print(f"\tState {state}: {np.abs(prob[0]):.3f}")
-
-    print("The eigenvalues are the probabilities of being in each state in the long run")
-    print("It can be seen that they are close to the calculated time spent on each state")

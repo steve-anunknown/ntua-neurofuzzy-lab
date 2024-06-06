@@ -1,0 +1,12 @@
+\babel@toc {greek}{}\relax 
+\contentsline {section}{\numberline {1}Θέμα}{3}{}%
+\contentsline {section}{\numberline {2}Θέμα}{3}{}%
+\babel@toc {english}{}\relax 
+\babel@toc {greek}{}\relax 
+\contentsline {section}{\numberline {3}Θέμα}{3}{}%
+\contentsline {subsection}{\numberline {3.1}Ερώτημα}{3}{}%
+\babel@toc {english}{}\relax 
+\babel@toc {greek}{}\relax 
+\contentsline {subsection}{\numberline {3.2}Ερώτημα}{4}{}%
+\babel@toc {english}{}\relax 
+\babel@toc {greek}{}\relax 

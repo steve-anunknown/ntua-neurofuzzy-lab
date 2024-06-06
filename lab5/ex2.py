@@ -13,5 +13,5 @@ def monte_carlo(n):
 
 
 if __name__ == '__main__':
-    iterations = 10000
+    iterations = 1000000
     print(monte_carlo(iterations))

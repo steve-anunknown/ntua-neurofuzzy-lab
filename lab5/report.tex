@@ -1,0 +1,191 @@
+\documentclass{article}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{placeins} % for \FloatBarrier
+\usepackage[english,greek, main=greek]{babel}
+\usepackage[utf8]{inputenc}
+\useshorthands{;}
+\defineshorthand{;}{?}
+
+\usepackage[explicit]{titlesec} % number after section name
+%% number after subsection name
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {}
+  {0em}
+  {#1\ \thesubsection}
+% avoid numbering the table of contents
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {}
+  {0em}
+  {\ifnum\value{section}=0\relax #1\else #1\ \thesection\fi}
+\newcommand{\eng}[1]{\foreignlanguage{english}{#1}} % shortcut for inserting english into greek text
+
+
+\title{
+    \includegraphics[width=\textwidth]{~/Pictures/emp.png} \\
+    \vskip 5cm
+    Νευροασαφής Έλεγχος και Εφαρμογές\\
+    \large Άσκηση 5η
+    \vskip 5cm
+}
+
+\author{Αναστάσιος Στέφανος Αναγνώστου\\
+        03119051}
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Θέμα}
+
+
+
+\section{Θέμα}
+
+Η προσομοίωση \eng{Monte Carlo} για τον υπολογισμό του $\pi$γίνεται παράγοντας
+τυχαία ένα πλήθος σημειών με συντεταγμένες $(x, y) \in \{0, 1\}^2$ και
+μετρώντας το πλήθος αυτών που βρίσκονται εντός του τεταρτοκύκλιου κύκλου
+κέντρου $(0, 0)$ και ακτίνας $1$. Δεδομένου ότι το εμβαδόν του κύκλου είναι
+$\pi$ και το εμβαδόν του τετραγώνου είναι $1$, η τιμή του $\pi$ μπορεί να
+υπολογιστεί ως
+
+\begin{equation}
+    \begin{gathered}
+    P(\text{σημείο εντός κύκλου}) = \frac{\text{εμβαδόν τεταρτοκυκλίου}}{\text{εμβαδόν τετραγώνου}} = \frac{\frac{\pi}{4}}{1} \implies \\
+    \pi = 4 \cdot P(\text{σημείο εντός κύκλου}) \implies \\
+    \pi \approx 4 \cdot \frac{\text{πλήθος σημείων εντός κύκλου}}{\text{πλήθος σημείων}}
+    \end{gathered}
+\end{equation}
+
+Παρατίθεται κώδικας \eng{Python} που υλοποιεί την προσομοίωση.
+
+\selectlanguage{english}
+\begin{lstlisting}[language=Python]
+import numpy as np
+import random
+
+def monte_carlo(n):
+    count = 0
+    for _ in range(n):
+        x = random.uniform(0, 1)
+        y = random.uniform(0, 1)
+        if x*x + y*y <= 1:
+            count += 1
+    return 4 * count / n
+
+
+if __name__ == '__main__':
+    iterations = 10000
+    print(monte_carlo(iterations))
+\end{lstlisting}
+\selectlanguage{greek}
+
+Η αντίστοιχη έξοδος της προσομοίωσης για $10^4$ σημεία είναι $3.1484$ και για
+$10^6$ σημεία είναι $3.141075$, πράγματι πολύ κοντά στην τιμή του $\pi$.
+
+\section{Θέμα}
+
+\subsection{Ερώτημα}
+
+Παρατίθεται κώδικας \eng{Python} που υλοποιεί την προσομοίωση. 
+
+\selectlanguage{english}
+\begin{lstlisting}[language=Python]
+import numpy as np
+import random
+
+def simulate_trajectory(initial_state, cost, controller, alpha=0.9, steps=10):
+    """
+    Simulate a trajectory of the controlled Markov chain.
+    
+    Parameters:
+    - initial_state: The starting state of the system.
+    - controller: The controller.
+    - alpha: Discount factor for the cost.
+    - max_steps: Maximum number of steps to simulate.
+    
+    Returns:
+    - states: List of states visited during the trajectory.
+    - cost: Total discounted cost of the trajectory.
+    """
+    states = [initial_state]
+    current_state = initial_state
+    total_cost = 0
+    for k in range(steps):
+        control = controller[current_state-1]
+        if control == +1:
+            next_state = current_state + 1 if np.random.rand() < 0.5 else current_state
+        elif control == -1:
+            next_state = current_state - 1 if np.random.rand() < 0.5 else current_state
+        else:
+            raise ValueError("Control must be +1 or -1")
+        
+        next_state = max(1, min(10, next_state))  # Ensure the state is within bounds
+        
+        # Cost function g(x)
+        g_x = cost[next_state - 1]
+        
+        total_cost += (alpha ** k) * g_x
+        states.append(next_state)
+        current_state = next_state
+    
+    return states, total_cost
+\end{lstlisting}
+\selectlanguage{greek}
+
+Η συνάρτηση τρέχει μία προσομοίωση για Κ βήματα και για έναν δεδομένο ελεγκτή.
+Σε κάθε βήμα επιχειρεί να εφαρμόσει τον έλεγχο με πιθανότητα $1/2$ να αποτύχει
+και να μείνει στην ίδια κατάσταση. Τέλος, επιστρέφει τις καταστάσεις από τις οποίες
+διήλθε και το συνολικό κόστος, βάσει ενός \eng{discount factor}.
+
+\subsection{Ερώτημα}
+
+\selectlanguage{english}
+\begin{lstlisting}[language=Python]
+def q_learning(cost, num_episodes=1000000, alpha=0.1,
+                gamma=0.9, epsilon=0.05, max_iter_episode=20):
+    """
+    Perform Q-learning on the stochastic system.
+    
+    Parameters:
+    - num_episodes: Number of episodes to run.
+    - alpha: Learning rate.
+    - gamma: Discount factor.
+    - epsilon: Exploration rate.
+    
+    Returns:
+    - Q: Learned Q-values.
+    """
+    Q = np.zeros((10, 2))  # 10 states and 2 actions (+1, -1)
+    
+    for _ in range(num_episodes):
+        state = random.randint(0, 9)  # Start from a random state
+        for _ in range(max_iter_episode):
+            if random.uniform(0, 1) < epsilon:
+                action = random.choice([0, 1])  # Explore
+            else:
+                action = np.argmin(Q[state])  # Exploit
+            flag = random.uniform(0, 1) < 0.5
+            next_state = state + 1 if action == 0 and flag else state
+            next_state = state - 1 if action == 1 and flag else state
+            next_state = max(0, min(9, next_state))
+            
+            reward = cost[next_state]
+            
+            best_next_action = np.argmax(Q[next_state])
+            td_target = reward + gamma * Q[next_state, best_next_action]
+            td_delta = td_target - Q[state, action]
+            Q[state, action] += alpha * td_delta
+            state = next_state
+    return Q
+\end{lstlisting}
+\selectlanguage{greek}
+
+\end{document}

@@ -1,0 +1,24 @@
+\babel@toc {greek}{}\relax 
+\contentsline {part}{{\fontencoding {OT1}\selectfont I}\hspace {1em}Αλγόριθμοι Βελτιστοποίησης}{3}{}%
+\babel@toc {english}{}\relax 
+\babel@toc {greek}{}\relax 
+\contentsline {section}{\numberline {1}Θέμα}{4}{}%
+\babel@toc {english}{}\relax 
+\babel@toc {greek}{}\relax 
+\contentsline {section}{\numberline {2}Θέμα}{5}{}%
+\babel@toc {english}{}\relax 
+\babel@toc {greek}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {greek}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {greek}{}\relax 
+\contentsline {section}{\numberline {3}Θέμα}{7}{}%
+\babel@toc {english}{}\relax 
+\babel@toc {greek}{}\relax 
+\contentsline {section}{\numberline {4}Θέμα}{8}{}%
+\contentsline {section}{\numberline {5}Θέμα}{9}{}%
+\contentsline {part}{{\fontencoding {OT1}\selectfont II}\hspace {1em}Απλά Νευρωνικά Δίκτυα}{10}{}%
+\contentsline {section}{\numberline {1}Θέμα}{10}{}%
+\babel@toc {english}{}\relax 
+\babel@toc {greek}{}\relax 
+\contentsline {section}{\numberline {2}Θέμα}{11}{}%

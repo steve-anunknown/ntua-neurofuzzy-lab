@@ -22,7 +22,6 @@ if __name__ == '__main__':
         [0, 0, 0, 0, 0, 0, 0, 0, 0, -1/2, 0, 0, -1/2, 1]
     ]
 
-
     free_vars = np.linalg.solve(system, right_side)
     print(f"mean absorption time from each state {free_vars}")
 
@@ -46,10 +45,10 @@ if __name__ == '__main__':
             state = np.random.choice(range(0, states), p=markov[state-1])
             steps += 1
         absorption_times.append(steps)
-    
+
     plt.hist(absorption_times, bins=range(0, max(absorption_times) + 1))
     plt.title("Histogram of absorption times")
     plt.xlabel("Absorption time")
     plt.ylabel("Frequency")
     plt.grid()
-    plt.show()
+    plt.savefig("histogram.png")
