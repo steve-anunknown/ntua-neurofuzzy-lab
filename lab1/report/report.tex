@@ -2,6 +2,7 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{placeins} % for \FloatBarrier
+\usepackage{amsmath}
 \usepackage[english,greek, main=greek]{babel}
 \usepackage[utf8]{inputenc}
 \useshorthands{;}
@@ -59,9 +60,72 @@
 
 \subsection{Ερώτημα}
 
+\clearpage
 \section{Θέμα}
 
 \subsection{Ερώτημα}
+
+Το σύστημα είναι:
+
+\begin{equation}
+    x(k+1) = h_1(x) \cdot A_1 \cdot x(k) + h_2(x) \cdot A_2 \cdot x(k)
+\end{equation}
+
+όπου  
+\begin{equation}
+    h_1(x) + h_2(x) = 1
+\end{equation}
+και 
+
+\begin{equation}
+    \begin{aligned}
+        Α_1 = \begin{bmatrix} 0.9 & a \\ 0 & 0.8 \end{bmatrix}\\
+        A_2 = \begin{bmatrix} 0.9 & 0 \\ a & 0.8 \end{bmatrix}
+    \end{aligned}
+\end{equation}
+
+Για να είναι το σύστημα ευσταθές πρέπει να υπάρχει από κοινού συνάρτηση \eng{Lyapunov}
+για καθέναν από τους πίνακες Α. Δηλαδή, πίνακας P συμμετρικός τέτοιος ώστε να ισχύει:
+
+\begin{equation}
+    \begin{aligned}
+        P > 0 \\
+        P \cdot A_1 + A_1 \cdot P < 0 \\
+        P \cdot A_2 + A_2 \cdot P < 0 \\
+    \end{aligned}
+\end{equation}
+
+Παρατηρείται όμως, ότι επειδή:
+
+\begin{equation}
+    A_1 = A_2^T
+\end{equation}
+
+οι παρακάτω περιορισμοί μπορούν να γραφτούν ως:
+
+\begin{equation}
+    \begin{gathered}
+        \begin{aligned}
+            P > 0 \\
+            P \cdot A_1 + A_1 \cdot P < 0 \\
+            P \cdot A_2 + A_2 \cdot P < 0 \\
+        \end{aligned} \implies
+        \begin{aligned}
+            P > 0 \\
+            P \cdot A_1 + A_2^T \cdot P < 0 \\
+            P \cdot A_2 + A_2 \cdot P < 0 \\
+        \end{aligned}  \\ \implies
+        \begin{aligned}
+            P > 0 \\
+            P \cdot A_1 + \left(P \cdot A_2 \right)^T < 0 \\
+            P \cdot A_2 + A_2 \cdot P < 0 \\
+        \end{aligned}
+    \end{gathered}
+\end{equation}
+
+
+
+
 
 \subsection{Ερώτημα}
 
