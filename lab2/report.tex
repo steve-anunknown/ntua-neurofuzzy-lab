@@ -13,7 +13,37 @@
 \useshorthands{;}
 \defineshorthand{;}{?}
 
-\usepackage{pythonhighlight}
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{10} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{10}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+% Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+language=Python,
+basicstyle=\ttm,
+morekeywords={self},              % Add keywords here
+keywordstyle=\ttb\color{deepblue},
+emph={MyClass,__init__},          % Custom highlighting
+emphstyle=\ttb\color{deepred},    % Custom highlighting style
+stringstyle=\color{deepgreen},
+frame=tb,                         % Any extra options here
+showstringspaces=false
+}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
 
 \usepackage[explicit]{titlesec} % number after section name
 %% the following lines are used to reset the section counter
@@ -131,6 +161,8 @@ disp(c_lasso_optimal);
 \end{lstlisting}
 \selectlanguage{greek}
 
+Το λ μπορεί να υπολογιστεί με \eng{cross-validation} όπως φαίνεται στον κώδικα.
+
 \clearpage
 \section{Θέμα}
 
@@ -151,6 +183,7 @@ def pendulum_dynamics(x, a1, a2, b, u):
     return np.array([x1_dot, x2_dot])
 \end{python}
 \selectlanguage{greek}
+\FloatBarrier
 
 Ο κώδικας για την ενημέρωση των παραμέτρων είναι:
 
@@ -177,7 +210,9 @@ def update_parameters(x, x_hat, a1, a2, b, u, learning_rate):
     return a1, a2, b
 \end{python}
 \selectlanguage{greek}
+\FloatBarrier
 
+\clearpage
 \subsection{Ερώτημα}
 
 Παρατίθεται επίσης ο κώδικας για την προσομοίωση. Το πρώτο κομμάτι είναι προσομοίωση
@@ -215,15 +250,12 @@ x_hat = np.array(x0)  # initial estimate
 for i in range(len(t)):
     # Assuming a constant input u
     u = 1.0
-
     # System dynamics
     x_dot = pendulum_dynamics(x, true_a1, true_a2, true_b, u)
     x = x + x_dot * dt
-
     # Estimated dynamics
     x_hat_dot = pendulum_dynamics(x_hat, a1, a2, b, u)
     x_hat = x_hat + x_hat_dot * dt
-
     # Parameter update
     a1, a2, b = update_parameters(x, x_hat, a1, a2, b, u, learning_rate)
 
@@ -236,6 +268,7 @@ for i in range(len(t)):
 \end{python}
 \selectlanguage{greek}
 
+\clearpage
 \selectlanguage{english}
 \begin{python}
 # Function to generate a sinusoidal wave
@@ -292,6 +325,7 @@ for i in range(len(t)):
     \includegraphics[width=\textwidth]{./estimation-const-unit-input.png}
     \caption{Εκτίμηση παραμέτρων με σταθερή είσοδο}
 \end{figure}
+\FloatBarrier
 
 Φαίνεται ότι η εκτίμηση της πρώτης παραμέτρου δεν είναι ιδιαίτερα καλή ενώ η εκτίμηση
 της δεύτερης δείχνει πράγματι την τάση να συγκλίνει στην πραγματική τιμή. Ωστόσο,
@@ -302,6 +336,7 @@ for i in range(len(t)):
     \includegraphics[width=\textwidth]{./estimation-sin-input.png}
     \caption{Εκτίμηση παραμέτρων με ημιτονοειδή είσοδο}
 \end{figure}
+\FloatBarrier
 
 Στην περίπτωση της ημιτονοειδούς εισόδου, φαίνεται ότι η εκτίμηση των παραμέτρων
 πλησιάζει περισσότερο της πραγματικές τους τιμές, καθώς επίσης ελαττώνεται η ακρίβεια
